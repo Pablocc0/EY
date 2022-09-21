@@ -757,7 +757,7 @@ input:checked + .slider:before {
                                                         <th>Lido</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="btn">
                                                     {% for e in emp %}
 
 
@@ -766,7 +766,7 @@ input:checked + .slider:before {
                                                         <td>
 
                                                                 <label class="switch">
-                                                                    <input type="checkbox" class="primary lido"
+                                                                    <input type="checkbox" data={{e.id}}  class="primary lido"
                                                                     {%if e.lido == False%}
                                                                         checked
                                                                     {%endif%}>
@@ -855,15 +855,22 @@ input:checked + .slider:before {
     <script src="{% static 'dist/js/init.js' %}"></script>
 
     <script>
-        $(".lido").onChange( function (
-            ajax(
-            sadfsfasdfasd
-            asda
-            sdasd
-            asd
-            refresh
-            )
-        ))
+
+    jQuery(document).ready(function () {
+        $('#btn').on("click", ".lido", function (e) {
+
+                var dt = $(this).attr('data');
+
+
+                $.get("http://127.0.0.1:8000/mensagem_lida", {
+                            id: dt
+                        }, function (msg) {
+                            console.log(msg)
+                            alert(msg)
+
+                        });
+        });
+    });
     </script>
 
 </body>

@@ -1,15 +1,16 @@
 import psycopg2
-from django.shortcuts import render
+import requests
+from bottle import route
+from django.shortcuts import render, HttpResponse
 import pandas as pd
-from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
 from .models import Mensagem
 
 
-
 # Create your views here.
+
+
 def index(request):
     try:
         connection = psycopg2.connect(user="postgres",
@@ -18,7 +19,7 @@ def index(request):
                                       port="5432",
                                       database="ey")
 
-        sql = "select texto, lido from mensagens_mensagem"
+        sql = "select id, texto, lido from mensagens_mensagem"
         cursor = connection.cursor()
 
         cursor.execute(sql)
@@ -40,4 +41,13 @@ def index(request):
             connection.close()
             print("PostgreSQL connection is closed")
 
-    return render(request, 'mensagens/index.html', {'emp':emp})
+    return render(request, 'mensagens/index.html', {'emp': emp})
+
+
+def mensagem_lida(request):
+    if request.method=='GET':
+        id = request.GET['id']
+        print(id)
+
+
+        return HttpResponse('Mensagem lida com sucesso!')
